@@ -3,7 +3,6 @@ package com.shopcrud.alpha;
 import java.io.Serializable;
 import java.util.Collection;
 import com.shopcrud.alpha.Category;
-import com.shopcrud.alpha.Product;
 import com.shopcrud.alpha.MockDataService;
 
 
