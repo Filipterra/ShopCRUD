@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.shopcrud.alpha.authentication.BasicAccessControl;
 import com.shopcrud.alpha.data.DataService;
 import com.shopcrud.alpha.objects.Availability;
 import com.vaadin.flow.component.notification.Notification;
@@ -21,6 +22,7 @@ public class Product implements Serializable {
     private String productName = "";
     @Min(0)
     private BigDecimal price = BigDecimal.ZERO;
+    @Size(min=1, message = "Product must have at least one category")
     private Set<Category> category;
     @Min(value = 0, message = "Can't have negative amount in stock")
     private int stockCount = 0;
@@ -72,7 +74,7 @@ public class Product implements Serializable {
     }
 
     public void setAvailability() {
-    	if (stockCount<individualLimit) {
+    	if (BasicAccessControl.isUserAdmin() && stockCount<individualLimit) {
     		Notification.show("Warning! " + productName + "has fallen below given treshold");
     	}
     	if (stockCount==0)
@@ -81,7 +83,7 @@ public class Product implements Serializable {
     	}
     	else if (stockCount<Limit) {
     		this.availability=Availability.LAST_ITEMS;
-    		Notification.show(productName + " shortage");
+    		if (BasicAccessControl.isUserAdmin()) Notification.show(productName + " shortage");
     	}
     	else this.availability=Availability.AVAILABLE;
     }

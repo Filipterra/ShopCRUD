@@ -39,7 +39,6 @@ public class ProductDataProvider extends ListDataProvider<Product> {
         this.filterText = filterText.trim();
 
         setFilter(product -> passesFilter(product.getProductName(), filterText)
-                || passesFilter(product.getAvailability(), filterText)
                 || passesFilter(product.getCategory(), filterText));
     }
     
@@ -57,7 +56,7 @@ public class ProductDataProvider extends ListDataProvider<Product> {
 
     private boolean passesFilter(Object object, String filterText) {
         return object != null && object.toString().toLowerCase(Locale.ENGLISH)
-                .contains(filterText);
+                .contains(filterText.toLowerCase(Locale.ENGLISH));
     }
     
     private boolean belowTreshold (Product product) {

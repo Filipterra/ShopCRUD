@@ -6,22 +6,27 @@ import java.util.List;
 
 import com.shopcrud.alpha.data.DataService;
 import com.shopcrud.alpha.objects.Category;
+import com.shopcrud.alpha.objects.Order;
 import com.shopcrud.alpha.objects.Product;
-import com.vaadin.flow.component.notification.Notification;
+import com.shopcrud.alpha.objects.Status;
 
 public class MockDataService extends DataService {
 
     private static MockDataService INSTANCE;
 
     private List<Product> products;
+    private List<Order> orders;
     private List<Category> categories;
     private int nextProductId = 0;
+    private int nextOrderId = 0;
     private int nextCategoryId = 0;
 
     private MockDataService() {
         categories = MockDataGenerator.createCategories();
         products = MockDataGenerator.createProducts(categories);
+        orders = MockDataGenerator.createOrders(products);
         nextProductId = products.size() + 1;
+        nextOrderId = orders.size() + 1;
         nextCategoryId = categories.size() + 1;
     }
 
@@ -36,6 +41,11 @@ public class MockDataService extends DataService {
     public synchronized List<Product> getAllProducts() {
         return Collections.unmodifiableList(products);
     }
+    
+    @Override
+	public synchronized List<Order> getAllOrders() {
+		return Collections.unmodifiableList(orders);
+	}
 
     @Override
     public synchronized List<Category> getAllCategories() {
@@ -60,7 +70,26 @@ public class MockDataService extends DataService {
                 + " found");
     }
     
+    @Override
+	public synchronized void updateOrder(Order o) {
+    	if (o.getId() < 0) {
+            o.setId(nextOrderId++);
+            o.setStatus(Status.PLACED);
+            orders.add(o);
+            return;
+        }
+        for (int i = 0; i < orders.size(); i++) {
+            if (orders.get(i).getId() == o.getId()) {
+                orders.set(i, o);
+                return;
+            }
+        }
+
+        throw new IllegalArgumentException("No order with id " + o.getId()
+                + " found");
+	}
     
+    @Override
     public synchronized void updateAvailability() {
     	for (Iterator<Product> i = products.iterator(); i.hasNext();) {
     	    i.next().setAvailability();
@@ -77,6 +106,7 @@ public class MockDataService extends DataService {
         return null;
     }
 
+    @Override
     public synchronized Product getProductByName(String productName) {
         for (int i = 0; i < products.size(); i++) {
             if (products.get(i).getProductName().equals(productName)) {
@@ -85,6 +115,16 @@ public class MockDataService extends DataService {
         }
         return null;
     }
+    
+	@Override
+	public synchronized Order getOrderById(int orderId) {
+		for (int i = 0; i < orders.size(); i++) {
+            if (orders.get(i).getId() == orderId) {
+                return orders.get(i);
+            }
+        }
+		return null;
+	}
     
     @Override
     public void updateCategory(Category category) {
@@ -112,5 +152,15 @@ public class MockDataService extends DataService {
         }
         products.remove(p);
     }
+
+	@Override
+	public synchronized void deleteOrder(int orderId) {
+		Order o = getOrderById(orderId);
+        if (o == null) {
+            throw new IllegalArgumentException("Order with id " + orderId
+                    + " not found");
+        }
+        orders.remove(o);
+	}
 
 }

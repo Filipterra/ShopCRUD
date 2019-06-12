@@ -16,7 +16,6 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -24,8 +23,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.converter.StringToBigDecimalConverter;
 import com.vaadin.flow.data.converter.StringToIntegerConverter;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.shopcrud.alpha.SampleCrudLogic;
-import com.shopcrud.alpha.objects.Availability;
+import com.shopcrud.alpha.ProductCrudLogic;
 import com.shopcrud.alpha.objects.Category;
 import com.shopcrud.alpha.objects.Product;
 
@@ -43,7 +41,7 @@ public class ProductForm extends Div {
     private Button cancel;
     private Button delete;
 
-    private SampleCrudLogic viewLogic;
+    private ProductCrudLogic viewLogic;
     private Binder<Product> binder;
     private Product currentProduct;
 
@@ -82,7 +80,7 @@ public class ProductForm extends Div {
         }
     }
 
-    public ProductForm(SampleCrudLogic sampleCrudLogic) {
+    public ProductForm(ProductCrudLogic sampleCrudLogic) {
         setClassName("product-form");
 
         content = new VerticalLayout();
@@ -121,6 +119,7 @@ public class ProductForm extends Div {
         category.setLabel("Categories");
         category.setId("category");
         category.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
+        category.setRequired(true);
         content.add(category);
 
         binder = new BeanValidationBinder<>(Product.class);
@@ -145,7 +144,7 @@ public class ProductForm extends Div {
         save.addClickListener(event -> {
             if (currentProduct != null
                     && binder.writeBeanIfValid(currentProduct)) {
-                viewLogic.saveProduct(currentProduct);
+            	viewLogic.saveProduct(currentProduct);
             }
         });
         save.addClickShortcut(Key.KEY_S, KeyModifier.CONTROL);
