@@ -1,4 +1,4 @@
-package com.shopcrud.alpha.data;
+package com.shopcrud.alpha.test.logic;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Random;
 import com.shopcrud.alpha.objects.Category;
 import com.shopcrud.alpha.objects.Order;
 import com.shopcrud.alpha.objects.Status;
-import com.shopcrud.alpha.objects.Product;
+import com.shopcrud.alpha.test.logic.Product;
 
 public class MockDataGenerator {
     private static int nextCategoryId = 1;

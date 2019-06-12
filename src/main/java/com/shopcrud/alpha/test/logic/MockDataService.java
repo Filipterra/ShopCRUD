@@ -1,13 +1,13 @@
-package com.shopcrud.alpha.data;
+package com.shopcrud.alpha.test.logic;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import com.shopcrud.alpha.data.DataService;
+import com.shopcrud.alpha.test.logic.DataService;
 import com.shopcrud.alpha.objects.Category;
 import com.shopcrud.alpha.objects.Order;
-import com.shopcrud.alpha.objects.Product;
+import com.shopcrud.alpha.test.logic.Product;
 import com.shopcrud.alpha.objects.Status;
 
 public class MockDataService extends DataService {

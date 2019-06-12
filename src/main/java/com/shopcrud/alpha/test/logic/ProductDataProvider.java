@@ -1,11 +1,11 @@
-package com.shopcrud.alpha.data;
+package com.shopcrud.alpha.test.logic;
 
 import java.util.Locale;
 import java.util.Objects;
 
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.shopcrud.alpha.data.DataService;
-import com.shopcrud.alpha.objects.Product;
+import com.shopcrud.alpha.test.logic.DataService;
+import com.shopcrud.alpha.test.logic.Product;
 
 public class ProductDataProvider extends ListDataProvider<Product> {
 

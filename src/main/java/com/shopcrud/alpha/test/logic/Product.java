@@ -1,4 +1,4 @@
-package com.shopcrud.alpha.objects;
+package com.shopcrud.alpha.test.logic;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -8,10 +8,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.shopcrud.alpha.authentication.BasicAccessControl;
-import com.shopcrud.alpha.data.DataService;
+import com.shopcrud.alpha.test.logic.DataService;
 import com.shopcrud.alpha.objects.Availability;
-import com.vaadin.flow.component.notification.Notification;
+import com.shopcrud.alpha.objects.Category;
 
 public class Product implements Serializable {
 
@@ -74,16 +73,12 @@ public class Product implements Serializable {
     }
 
     public void setAvailability() {
-    	if (BasicAccessControl.isUserAdmin() && stockCount<individualLimit) {
-    		Notification.show("Warning! " + productName + "has fallen below given treshold");
-    	}
     	if (stockCount==0)
     	{
     		this.availability=Availability.UNAVAILABLE;
     	}
     	else if (stockCount<Limit) {
     		this.availability=Availability.LAST_ITEMS;
-    		if (BasicAccessControl.isUserAdmin()) Notification.show(productName + " shortage");
     	}
     	else this.availability=Availability.AVAILABLE;
     }

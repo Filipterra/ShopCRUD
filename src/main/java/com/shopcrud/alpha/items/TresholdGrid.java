@@ -5,7 +5,6 @@ import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.shopcrud.alpha.objects.Category;
 import com.shopcrud.alpha.objects.Product;
 
-import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 

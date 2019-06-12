@@ -11,7 +11,6 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.ironlist.IronList;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -20,16 +19,17 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.shopcrud.alpha.authentication.BasicAccessControl;
 import com.shopcrud.alpha.data.DataService;
 import com.shopcrud.alpha.data.ProductDataProvider;
 import com.shopcrud.alpha.items.TresholdGrid;
 import com.shopcrud.alpha.objects.Category;
 import com.shopcrud.alpha.objects.Product;
 
-
 @Route(value = "Admin", layout = MainLayout.class)
 @PageTitle("Admin")
 public class AdminView extends HorizontalLayout {
+	
 
 	public static final String VIEW_NAME = "Admin";
 
@@ -42,6 +42,7 @@ public class AdminView extends HorizontalLayout {
     private ProductDataProvider prDataProvider = new ProductDataProvider();
 
     public AdminView() {
+    	
     	VerticalLayout Vcategories = new VerticalLayout();
         categoriesListing = new IronList<>();
 
@@ -49,8 +50,12 @@ public class AdminView extends HorizontalLayout {
         categoriesListing.setDataProvider(dataProvider);
         categoriesListing.setRenderer(new ComponentRenderer<>(this::createCategoryEditor));
 
-        newCategoryButton = new Button("Add New Category");
-        newCategoryButton.setEnabled(false);
+        newCategoryButton = new Button("Add New Category", event -> {
+            Category category = new Category();
+            dataProvider.getItems().add(category);
+            dataProvider.refreshAll();
+        });
+        newCategoryButton.setDisableOnClick(true);
 
         
         Vcategories.add(new H2("Admin Configuration"), new H4("Edit Categories"), newCategoryButton, categoriesListing);
@@ -79,7 +84,7 @@ public class AdminView extends HorizontalLayout {
         
         VerticalLayout Vgrid = new VerticalLayout();
         
-        Label gridLabel = new Label("Prodcuts below set treshold");
+        Label gridLabel = new Label("Products below set treshold");
         
         grid = new TresholdGrid();
         prDataProvider.setLimitFilter();

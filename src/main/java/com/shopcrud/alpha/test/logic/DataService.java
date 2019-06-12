@@ -1,11 +1,11 @@
-package com.shopcrud.alpha.data;
+package com.shopcrud.alpha.test.logic;
 
 import java.io.Serializable;
 import java.util.Collection;
 import com.shopcrud.alpha.objects.Category;
 import com.shopcrud.alpha.objects.Order;
-import com.shopcrud.alpha.objects.Product;
-import com.shopcrud.alpha.data.MockDataService;
+import com.shopcrud.alpha.test.logic.Product;
+import com.shopcrud.alpha.test.logic.MockDataService;
 
 
 public abstract class DataService implements Serializable {
